@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29920.165
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWS_SSM_ParameterStore_Web", "AWS_SSM_ParameterStore_Web\AWS_SSM_ParameterStore_Web.csproj", "{5FF23C1B-CDBC-4D6C-9C48-9BB4C6953C54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5FF23C1B-CDBC-4D6C-9C48-9BB4C6953C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FF23C1B-CDBC-4D6C-9C48-9BB4C6953C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FF23C1B-CDBC-4D6C-9C48-9BB4C6953C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FF23C1B-CDBC-4D6C-9C48-9BB4C6953C54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D480DA48-73F6-4270-A4A4-7DA8ABD18FE6}
+	EndGlobalSection
+EndGlobal

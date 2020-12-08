@@ -1,0 +1,144 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>AWS SSM Parameter Store</h1>
+
+@* ****************  Search Form*****************  *@
+<div class="form-row">
+    <div class="col ui-widget">
+        <input id="txtName" type="text" class="form-control" placeholder="stack name ex: resilientsender-qa | leave blank for all parameters">
+    </div>
+    <div class="col">
+        <button class="btn btn-primary" type="button" id="btnSubmit">
+            <span id="spinner" style="display: none;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Search
+        </button><span style="margin:0 2px;"></span>
+    </div>
+</div>
+@* ****************  Search Form*****************  *@
+<br>
+
+<p>Use the search box to filter any parameter by name or value</p>
+
+@*OnSubmit respose contents will be appended here*@
+<div id="divContent">
+</div>
+
+
+<script data-require="jquery" data-semver="3.0.0" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //Autocomplete function...
+        $(function () {
+            var availableTags = [
+                "GenesisProviderLegacy",
+                "identity-master",
+                "identity-qa",
+                "importer-bath-master",
+                "importer-bath-qa",
+                "importer-hermitage-TEST-pull-68",
+                "importer-hermitage-master",
+                "importer-hermitage-qa",
+                "importer-homerton-master",
+                "importer-mater-master",
+                "importer-mater-qa",
+                "importer-northampton-master",
+                "importer-northampton-qa",
+                "importer-roche-master",
+                "importer-roche-qa",
+                "importer-tallaght-master",
+                "importer-tallaght-qa",
+                "integrationhistory-master",
+                "integrationhistory-qa",
+                "inventorymanagement-master",
+                "inventorymanagement-pull-128",
+                "inventorymanagement-pull-135",
+                "inventorymanagement-pull-137",
+                "inventorymanagement-pull-707",
+                "inventorymanagement-pull-746",
+                "inventorymanagement-pull-747",
+                "inventorymanagement-pull-756",
+                "inventorymanagement-pull-768",
+                "inventorymanagement-pull-79",
+                "inventorymanagement-pull-80",
+                "inventorymanagement-pull-81",
+                "inventorymanagement-qa",
+                "masterdata-master",
+                "masterdata-pull-167",
+                "masterdata-qa",
+                "patient-master",
+                "patient-qa",
+                "pointofcare-master",
+                "pointofcare-pull-184",
+                "pointofcare-pull-185",
+                "pointofcare-pull-189",
+                "pointofcare-pull-203",
+                "pointofcare-qa",
+                "redox-master",
+                "redox-pull-187",
+                "redox-qa",
+                "resilientreceiver-bath-qa",
+                "resilientreceiver-hermitage-qa",
+                "resilientreceiver-hull-qa",
+                "resilientreceiver-master",
+                "resilientreceiver-northampton-qa",
+                "resilientreceiver-novant-qa",
+                "resilientreceiver-qa",
+                "resilientreceiver-roche-qa",
+                "resilientreceiver-tallaght-qa",
+                "resilientsender-master",
+                "resilientsender-novant-qa",
+                "resilientsender-pull-176",
+                "resilientsender-qa"
+            ];
+            $("#txtName").autocomplete({
+                source: availableTags
+            });
+        });
+
+
+        $("#btnSubmit").click(function () {
+
+            //show loading spinner
+            $('#spinner').show();
+
+            //search value
+            var pName = $("#txtName").val();
+
+            //ajax post to ParametersController GetParameters method
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetParameters")",
+                data: { name: pName},
+                //dataType: "text",
+                success: function (data) {
+
+                    //display partial view data
+                    $("#divContent").html(data);
+
+                    //Datatable initialization
+                    $('#mytable').DataTable({
+                        "columnDefs": [
+                            { "width": "20%", "targets": 0 }
+                        ],
+                        "autoWidth": false,
+                        "destroy": true, //use for reinitialize datatable
+                        "scrollX": true,
+                    });
+
+                    //increase search box size
+                    $(".dataTables_wrapper .dataTables_filter input").width(500);
+
+                    //hide loading spinner
+                    $('#spinner').hide();
+                },
+                error: function (req, status, error) {
+                    console.log(msg);
+                }
+            });
+        });
+    });
+</script>
