@@ -38,6 +38,20 @@ namespace AWS_SSM_ParameterStore_Web.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<JsonResult> UpdateParameterAsync(string pname, string pvalue)
+        {
+            var req = new PutParameterRequest()
+            {
+                Name = pname,
+                Value = pvalue,
+                Overwrite=true
+            };
+            var res = await UpdateParameter(req);
+            return Json(res);
+        }
+
+
         /**
          * Max Results is 10 supported by AmazonSimpleSystemsManagementClient.GetParametersByPathAsync
          * this method will recursively get all the results using the NextToken
@@ -59,6 +73,15 @@ namespace AWS_SSM_ParameterStore_Web.Controllers
                 }
             }
             return paramData;
+        }
+
+        public static async Task<PutParameterResponse> UpdateParameter(PutParameterRequest req)
+        {
+            using (var client = new AmazonSimpleSystemsManagementClient())
+            {
+                var response = await client.PutParameterAsync(req);
+                return response;
+            }
         }
     }
 }

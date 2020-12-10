@@ -17,7 +17,7 @@
                     <form>
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Parmeter Name</label>
-                            <textarea disabled class="form-control" id="parm-key"></textarea>
+                            <textarea disabled class="form-control" id="parm-name"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="message-text" class="col-form-label">Value</label>
@@ -27,7 +27,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Update</button>
+                    <button type="button" id="btnUpdate" class="btn btn-primary">
+                        <span id="spinnerUpdate" style="display: none;" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Update
+                    </button>
                 </div>
             </div>
         </div>
@@ -45,7 +48,7 @@
             @for (int i = 0; i < @Model.Count; i++)
             {
             <tr>
-                <td><a data-toggle="modal" data-target="#exampleModal" data-key="@Model[i].Name" data-value="@Model[i].Value">@Model[i].Name</a></td>
+                <td><a data-toggle="modal" data-target="#exampleModal" data-name="@Model[i].Name" data-value="@Model[i].Value">@Model[i].Name</a></td>
                 <td>@Model[i].Value</td>
             </tr>
             }
@@ -65,11 +68,40 @@
             //On parameter name click
             $('#exampleModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
-                var key = button.data('key') // Extract info from data-* attributes
+                var name = button.data('name') // Extract info from data-* attributes
                 var value = button.data('value') // Extract info from data-* attributes
                 var modal = $(this)
-                modal.find('#parm-key').val(key)
+                modal.find('#parm-name').val(name)
                 modal.find('#parm-value').val(value)
             });
+
+
+            $("#btnUpdate").click(function () {
+
+                //show loading spinner
+                $('#spinnerUpdate').show();
+
+                //search value
+                var pName = $("#parm-name").val();
+                var pValue = $("#parm-value").val();
+
+                //ajax post to ParametersController GetParameters method
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("UpdateParameter")",
+                    data: { pname: pName, pvalue: pValue },
+                    //dataType: "text",
+                    success: function (data) {
+                        console.log(data);
+                        $('#spinnerUpdate').hide();
+                        $('#exampleModal').modal('hide')
+                    },
+                    error: function (req, status, error) {
+                        console.log(data);
+                    }
+                });
+             });
+
+
         });
     </script>
