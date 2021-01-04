@@ -15,6 +15,7 @@
                 </div>
                 <div class="modal-body">
                     <form>
+                        <input hidden id="parm-id" />
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Parmeter Name</label>
                             <textarea disabled class="form-control" id="parm-name"></textarea>
@@ -48,8 +49,8 @@
             @for (int i = 0; i < @Model.Count; i++)
             {
             <tr>
-                <td><a data-toggle="modal" data-target="#exampleModal" data-name="@Model[i].Name" data-value="@Model[i].Value">@Model[i].Name</a></td>
-                <td>@Model[i].Value</td>
+                <td><a style="color: #0c6ace;" data-toggle="modal" data-target="#exampleModal" data-name="@Model[i].Name" data-id="@i" data-value="@Model[i].Value">@Model[i].Name</a></td>
+                <td id="@("tr"+i)">@Model[i].Value</td>
             </tr>
             }
 
@@ -70,9 +71,12 @@
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var name = button.data('name') // Extract info from data-* attributes
                 var value = button.data('value') // Extract info from data-* attributes
+                var id = button.data('id') // Extract info from data-* attributes
+
                 var modal = $(this)
                 modal.find('#parm-name').val(name)
                 modal.find('#parm-value').val(value)
+                modal.find('#parm-id').val(id)
             });
 
 
@@ -84,6 +88,7 @@
                 //search value
                 var pName = $("#parm-name").val();
                 var pValue = $("#parm-value").val();
+                var id = $("#parm-id").val();
 
                 //ajax post to ParametersController GetParameters method
                 $.ajax({
@@ -92,7 +97,8 @@
                     data: { pname: pName, pvalue: pValue },
                     //dataType: "text",
                     success: function (data) {
-                        console.log(data);
+                        console.log(id);
+                        $("#tr" + id).html(pValue);
                         $('#spinnerUpdate').hide();
                         $('#exampleModal').modal('hide')
                     },

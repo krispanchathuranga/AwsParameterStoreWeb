@@ -8,7 +8,7 @@
 @* ****************  Search Form*****************  *@
 <div class="form-row">
     <div class="col ui-widget">
-        <input id="txtName" type="text" class="form-control" placeholder="stack name ex: resilientsender-qa | leave blank for all parameters">
+        <input id="txtName" type="text" class="form-control" placeholder="Name | leave blank for all parameters">
     </div>
     <div class="col">
         <button class="btn btn-primary" type="button" id="btnSubmit">
@@ -34,7 +34,7 @@
         //Autocomplete function...
         $(function () {
             var availableTags = [
-                
+
             ];
             $("#txtName").autocomplete({
                 source: availableTags
@@ -64,7 +64,8 @@
                     //Datatable initialization
                     $('#mytable').DataTable({
                         "columnDefs": [
-                            { "width": "20%", "targets": 0 }
+                            { "width": "20%", "targets": 0 },
+                            { "width": "80%", "targets": 1 }
                         ],
                         "autoWidth": false,
                         "destroy": true, //use for reinitialize datatable
@@ -78,7 +79,8 @@
                     $('#spinner').hide();
                 },
                 error: function (req, status, error) {
-                    console.log(msg);
+                    console.log(status);
+                    console.log(error);
                 }
             });
         });
