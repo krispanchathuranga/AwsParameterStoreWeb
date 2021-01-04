@@ -1,4 +1,3 @@
-@@ -1,2 +1,75 @@
 # AwsParameterStoreWeb
 A simple solution to retrieve and filter AWS Parameter store values
 A simple solution to query AWS System Manager : Parameter Store
